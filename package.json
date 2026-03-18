@@ -1,14 +1,37 @@
 {
   "name": "viberail-mcp",
   "version": "0.1.0",
+  "description": "MCP server for the viberail spec-first development framework — exposes tools and skills for designing domain layers using behavioral contracts",
   "type": "module",
   "bin": {
-    "viberail-mcp": "./src/server.ts"
+    "viberail-mcp": "./dist/server.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "fastmcp dev src/server.ts",
-    "build": "tsc"
+    "build": "rm -rf dist && tsc && cp -r src/skills dist/skills",
+    "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "viberail",
+    "spec-first",
+    "domain-driven-design",
+    "code-generation",
+    "ai-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mean-machine-gc/viberail-mcp.git"
+  },
+  "homepage": "https://github.com/mean-machine-gc/viberail-mcp",
+  "bugs": {
+    "url": "https://github.com/mean-machine-gc/viberail-mcp/issues"
+  },
+  "license": "MIT",
   "dependencies": {
     "fastmcp": "^3.34.0",
     "open": "^10.1.0",

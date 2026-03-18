@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 import { FastMCP } from 'fastmcp'
 import { checkTool } from './tools/check.js'
 import { genTool } from './tools/gen.js'
