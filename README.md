@@ -37,6 +37,7 @@ The server communicates over **stdio** using the [Model Context Protocol](https:
 
 | Tool | Description |
 |------|-------------|
+| `status` | Bird's-eye view of project health: per-spec status matrix, summary, and prioritized next actions |
 | `init-project` | Initialize a project for viberail: install the library, add npm scripts, scaffold docs, copy skills |
 | `list-specs` | Discover all specs in a project with metadata (steps, failure codes, success types) |
 | `get-spec` | Read a specific spec's markdown representation (decision table / pipeline table) |

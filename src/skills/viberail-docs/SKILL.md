@@ -11,10 +11,13 @@ the `<!-- -->` placeholder comments with business-friendly prose.
 
 ## Workflow
 
-1. Call the `generate-docs` MCP tool with the spec path, aggregate name, and nav order
-2. Read the generated markdown file
-3. Replace every `<!-- -->` comment with business prose
-4. Write the updated file
+1. Call `status` to see which specs are missing doc files (`docFileExists: false`)
+2. Pick the next spec to document (or follow the user's direction)
+3. Call the `generate-docs` MCP tool with the spec path, aggregate name, and nav order
+4. Read the generated markdown file
+5. Replace every `<!-- -->` comment with business prose
+6. Write the updated file
+7. Call `status` to verify and see if more specs need docs
 
 ---
 

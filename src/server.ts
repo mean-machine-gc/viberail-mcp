@@ -10,6 +10,7 @@ import { getDependencyGraphTool } from './tools/get-dependency-graph.js'
 import { initProjectTool } from './tools/init-project.js'
 import { generateTestTool } from './tools/generate-test.js'
 import { generateDocsTool } from './tools/generate-docs.js'
+import { statusTool } from './tools/status.js'
 
 const server = new FastMCP({ name: 'viberail-mcp', version: '0.1.0' })
 
@@ -23,5 +24,6 @@ server.addTool(getDependencyGraphTool)
 server.addTool(initProjectTool)
 server.addTool(generateTestTool)
 server.addTool(generateDocsTool)
+server.addTool(statusTool)
 
 server.start({ transportType: 'stdio' })

@@ -65,26 +65,53 @@ The workflow is sequential. Each step produces one artifact. Don't skip steps.
 
 ## Orientation — before you start
 
-Before writing anything, understand what already exists:
+Before writing anything, call `status` to get the full project picture in one
+shot. It returns:
 
-- Call `list-specs` to see all specs in the project
-- Call `check` to find incomplete specs, missing examples, inheritance drift
-- Call `get-dependency-graph` to see how specs relate to each other
-- Call `get-test-results` to see what's passing and what's failing
-- Call `launch-ui` to open the visual workbench — interactive dependency graph,
-  spec browser, coverage matrix, test dashboard, and spec diff viewer. Useful
-  for getting a visual overview of the project or reviewing changes before a PR.
+- Every spec with its check status, test/impl/doc file existence, and test results
+- A project-level summary (how many specs, how many passing, coverage gaps)
+- A prioritized `nextActions` list telling you exactly what to do next
+- Staleness detection: if source files changed since the last test run,
+  `summary.tests.stale` is `true` and `nextActions` warns you to re-run
+
+**Always start with `status`.** It replaces the need to call `list-specs`,
+`check`, `get-test-results`, and `get-dependency-graph` separately. Use those
+individual tools only when you need to drill deeper into a specific spec or issue.
+
+**When you need authoritative test results**, call `status` with `runTests: true`.
+This runs the test suite first and guarantees fresh data. Use it:
+- At the start of a session (to know the real state)
+- After implementing or modifying code (to verify your changes)
+- Before making decisions based on pass/fail data
+
+Without `runTests`, test data may be stale. Status will warn you when it is —
+follow the warning.
+
+For a visual overview, call `launch-ui` to open the interactive workbench.
+
+## The status loop
+
+The workflow is not strictly one-way. After any phase, call `status` to verify
+and orient. The `nextActions` field tells you what to do next — follow it.
+
+```
+status → act → status → act → ...
+```
+
+This means you can drop into a project at any point and `status` will tell you
+where things stand and what needs attention. You don't need to start from scratch.
 
 ## When to use tools vs skills
 
 **MCP tools** — programmatic operations with structured output:
+- `status` — **start here** — full project health, per-spec matrix, next actions
 - `init-project` — set up a new project (once)
-- `check` — validate specs for completeness
+- `check` — validate specs for completeness (deep-dive)
 - `gen` — regenerate .spec.md files
 - `generate-test` — create test file from spec
 - `generate-docs` — scaffold doc page from spec
-- `list-specs`, `get-spec`, `get-dependency-graph` — orientation
-- `get-test-results` — check test status
+- `list-specs`, `get-spec`, `get-dependency-graph` — drill into specifics
+- `get-test-results` — detailed test results per spec
 - `launch-ui` — open the visual workbench
 
 **Skills** — interactive guidance for design decisions:

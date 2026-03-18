@@ -36,10 +36,18 @@ The `.test.ts` wires the spec to `testSpec()`.
 
 ## Input
 
-Ask the user to provide:
+Call `status` with `runTests: true` to see which specs need implementation
+with fresh test data. The response shows:
+- Specs where `implFileExists` is `false` — no implementation yet
+- Specs where `testResults.fail > 0` — implementation exists but tests are failing
+- The `nextActions` list prioritizes what to work on
+
+Pick the next spec from `nextActions`, then read:
 1. The `.spec.ts` file (SpecFn type + Spec declaration)
 2. The `.test.ts` file
 3. The `types.ts` file
+
+If the user points you to a specific spec instead, read those files directly.
 
 Identify what needs to be implemented:
 - A factory (core, shell, or service)
@@ -892,19 +900,15 @@ Diagnose against the spec — not against the test output alone.
 
 ## Done
 
-When all tests pass:
+When all tests pass, call `status` with `runTests: true` to verify and see the
+updated project picture. Report:
 
 > "All tests green. [function] is implemented and verified against [N] failure
-> groups and [M] success types.
->
-> The next step depends on where you are in the pipeline:
-> - More steps to implement? Continue with the next one.
-> - Core factory next? The steps are ready to be wired.
-> - Shell factory next? The core factory is ready to be used as a step.
-> - Ready for documentation? Call the `generate-docs` MCP tool to scaffold
->   the doc page, then use viberail-docs skill to fill in the business prose.
-> - Ready for integration? Wire the shell factory with real deps in the app layer.
-> - Want to validate specs? Call the `check` MCP tool to verify completeness."
+> groups and [M] success types."
+
+Then follow the `nextActions` from `status` — it will tell you whether there
+are more specs to implement, failing tests elsewhere, or docs to generate.
+No need to guess the next step.
 
 ---
 
@@ -912,12 +916,14 @@ When all tests pass:
 
 Use viberail MCP tools at these points during implementation:
 
+- **Before starting:** Call `status` with `runTests: true` to see which specs
+  need implementation — pick the next item from `nextActions`.
 - **Running tests:** Call `get-test-results` to check which examples pass and
   which fail — useful for tracking progress without leaving the conversation.
 - **Reviewing the spec:** Call `get-spec` to see the decision table and pipeline
   for the function you're implementing.
-- **After all tests pass:** Call `check` to verify the overall project health —
-  catches orphaned specs, inheritance drift, and missing coverage.
+- **After all tests pass:** Call `status` with `runTests: true` to verify
+  overall project health with fresh data, and see what to work on next.
 - **Viewing dependencies:** Call `get-dependency-graph` to understand how the
   function you're implementing fits into the larger spec tree.
 

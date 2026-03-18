@@ -75,9 +75,13 @@ export const initProjectTool = {
             pkg.scripts['vr:check'] = 'npx viberail check'
             scriptsChanged = true
         }
+        if (!pkg.scripts['vr:test']) {
+            pkg.scripts['vr:test'] = 'jest --reporters=default --reporters=viberail/dist/reporters/json-reporter.js'
+            scriptsChanged = true
+        }
         if (scriptsChanged) {
             writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
-            actions.push('added vr:gen and vr:check scripts')
+            actions.push('added vr:gen, vr:check, and vr:test scripts')
         } else {
             actions.push('npm scripts already present')
         }

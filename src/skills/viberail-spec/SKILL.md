@@ -34,20 +34,20 @@ Every function gets the same `Spec<Fn>` type. The complexity scales with the fun
 
 ## Mode selection
 
-Before starting, assess the context:
+Before starting, call `status` to assess the project context:
 
-**Proposal mode** — use when existing specs exist in the project. You have
-patterns to learn from. Read types.ts, existing specs, and the domain map.
+**Proposal mode** — use when `status` shows existing specs in the project. You
+have patterns to learn from. Read types.ts, existing specs, and the domain map.
 Then propose the full spec layout in tables for the user to review. This is
 the default mode for most work.
 
-**Guided mode** — use when this is the first function in a new domain, or when
+**Guided mode** — use when `status` shows zero specs (new domain), or when
 the user explicitly asks for step-by-step guidance. Work through each section
 with the user, one at a time. This builds shared understanding of the patterns.
 
-To decide: call `list-specs` to see if specs exist. If the project has specs,
-use proposal mode. If empty, use guided mode for the first few functions,
-then switch to proposal mode once patterns are established.
+The `status` response also shows check errors on existing specs — fix those
+before writing new specs, as they may indicate patterns you should follow or
+avoid.
 
 ---
 
@@ -194,11 +194,11 @@ The user reviews and says "yes" or requests changes. **One round trip.**
 After both approvals:
 1. Write the complete `.spec.ts` file(s) — core spec first, then shell spec
 2. Call `generate-test` MCP tool to create the test file(s)
-3. Call `check` to validate completeness
-4. If factory with `document: true`, call `gen` to produce `.spec.md`
+3. If factory with `document: true`, call `gen` to produce `.spec.md`
+4. Call `status` to verify completeness and see the updated project picture
 
-Report what was created. The agent can now proceed to implementation
-(viberail-implement) or the user can direct next steps.
+The `status` response will show the new spec in the matrix and its `nextActions`
+will guide what to do next — typically implementation.
 
 ---
 
@@ -469,11 +469,12 @@ to call the `init-project` MCP tool.
 
 ## MCP tool integration
 
-- **Discovering existing specs:** Call `list-specs` or `get-spec`
-- **After completing the spec:** Call `check` to validate completeness
+- **Before starting:** Call `status` for the full project picture — existing specs,
+  check health, what needs work
+- **After completing the spec:** Call `status` to verify completeness and see next actions
 - **After setting `document: true`:** Call `gen` to generate `.spec.md`
 - **Creating the test file:** Call `generate-test`
-- **Viewing the dependency graph:** Call `get-dependency-graph`
+- **Deep-dive into a specific spec:** Call `get-spec` or `get-dependency-graph`
 
 ---
 
